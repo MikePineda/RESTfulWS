@@ -28,56 +28,60 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 public class FileRest {
-	@Autowired
-	FileService fileService;
-	
-	@RequestMapping(value = "file", method = RequestMethod.OPTIONS)
-	public ResponseEntity<?> showOptions() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Allow", "OPTIONS,GET,POST,DELETE");
-		
-		Map<HttpMethod, String> methods = new Hashtable<>(4);
-		methods.put(HttpMethod.GET, "Downloads specified file in parameter 'path'.");
-		methods.put(HttpMethod.OPTIONS, "Resource documentation.");
-		methods.put(HttpMethod.POST, "Uploads specified file in parameter 'path'.");
-		methods.put(HttpMethod.DELETE, "Deletes specified file in parameter 'path'.");
-		
-		OptionsDoc options = new OptionsDoc();
-		options.setMethods(methods);
-		
-		return new ResponseEntity<>(options, headers, HttpStatus.OK);
-	}
 
-	@RequestMapping(value = "file", params = {"path"}, method = RequestMethod.GET)
-	@ResponseBody
-	public View downloadFile(@RequestParam(value = "path") String path) throws IOException {
-		if(!Files.exists(Paths.get(path)))
-			throw new ResourceNotFoundException(path + " does not exist.");
-			
-		Path file = fileService.getFile(path);
-		return new DownloadView(file.getFileName().toString(), Files.probeContentType(file), Files.readAllBytes(file));
-	}
-	
-	@RequestMapping(value = "file", params = {"path"}, method = RequestMethod.DELETE)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public String deleteFile(@RequestParam(value = "path") String path) {
-		if(!Files.exists(Paths.get(path)))
-			throw new ResourceNotFoundException(path + " does not exist.");
+    @Autowired
+    FileService fileService;
 
-		return fileService.delete(path);
-	}
-	
-	@RequestMapping(value = "file", method = RequestMethod.POST)
-	public ResponseEntity<?> uploadFile(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "name") String name, @RequestParam(value = "dir") String dir) {
-		if(file.isEmpty())
-			return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+    @RequestMapping(value = "file", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> showOptions() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Allow", "OPTIONS,GET,POST,DELETE");
 
-		fileService.uploadFile(file, name, dir);
+        Map<HttpMethod, String> methods = new Hashtable<>(4);
+        methods.put(HttpMethod.GET, "Downloads specified file in parameter 'path'.");
+        methods.put(HttpMethod.OPTIONS, "Resource documentation.");
+        methods.put(HttpMethod.POST, "Uploads specified file in parameter 'path'.");
+        methods.put(HttpMethod.DELETE, "Deletes specified file in parameter 'path'.");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", ServletUriComponentsBuilder.fromCurrentServletMapping().path("/file/?path="+dir+"/"+name).build().toString());
+        OptionsDoc options = new OptionsDoc();
+        options.setMethods(methods);
 
-		return new ResponseEntity<>(null, headers, HttpStatus.CREATED);
-	}
+        return new ResponseEntity<>(options, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "file", params = {"path"}, method = RequestMethod.GET)
+    @ResponseBody
+    public View downloadFile(@RequestParam(value = "path") String path) throws IOException {
+        if (!Files.exists(Paths.get(path))) {
+            throw new ResourceNotFoundException(path + " does not exist.");
+        }
+
+        Path file = fileService.getFile(path);
+        return new DownloadView(file.getFileName().toString(), Files.probeContentType(file), Files.readAllBytes(file));
+    }
+
+    @RequestMapping(value = "file", params = {"path"}, method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String deleteFile(@RequestParam(value = "path") String path) {
+        if (!Files.exists(Paths.get(path))) {
+            throw new ResourceNotFoundException(path + " does not exist.");
+        }
+
+        return fileService.delete(path);
+    }
+
+    @RequestMapping(value = "file", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadFile(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "name") String name, @RequestParam(value = "dir") String dir) {
+        if (file.isEmpty()) {
+            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+        }
+
+        fileService.uploadFile(file, name, dir);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", ServletUriComponentsBuilder.fromCurrentServletMapping().path("/file/?path=" + dir + "/" + name).build().toString());
+
+        return new ResponseEntity<>(null, headers, HttpStatus.CREATED);
+    }
 }

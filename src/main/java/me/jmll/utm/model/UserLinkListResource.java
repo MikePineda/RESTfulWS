@@ -8,32 +8,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class UserLinkListResource extends Resource {
-	private List<Link> links = new ArrayList<>();
-	private List<Link> userLinks = new ArrayList<>();
-	
-	@XmlElement(name="link")
-	public List<Link> getLinks() {
-		return links;
-	}
 
-	public void setLinks(List<Link> links) {
-		this.links = links;
-	}
+    private List<Link> links = new ArrayList<>();
+    private List<Link> userLinks = new ArrayList<>();
 
-	public void addLink(Link link) {
-		this.links.add(link);
-	}
-	
-	@XmlElement(name="data")
-	public List<Link> getUserLinks() {
-		return userLinks;
-	}
+    @XmlElement(name = "link")
+    public List<Link> getLinks() {
+        return links;
+    }
 
-	public void setUserLinks(List<Link> userLinks) {
-		this.userLinks = userLinks;
-	}
-	
-	public void addUserLink(Link link) {
-		this.userLinks.add(link);
-	}
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        this.links.add(link);
+    }
+
+    @XmlElement(name = "data")
+    public List<Link> getUserLinks() {
+        return userLinks;
+    }
+
+    public void setUserLinks(List<Link> userLinks) {
+        this.userLinks = userLinks;
+    }
+
+    public void addUserLink(Link link) {
+        this.userLinks.add(link);
+    }
 }

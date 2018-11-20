@@ -26,26 +26,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration
 @EnableWebMvc
 @ComponentScan(
-		basePackageClasses = {
-				me.jmll.utm.rest.ComponentPackageMaker.class,
-				me.jmll.utm.rest.exception.ComponentPackageMaker.class },
-		useDefaultFilters = false,
-		includeFilters = @ComponentScan.Filter({
-			Controller.class,
-			ControllerAdvice.class}))
+        basePackageClasses = {
+            me.jmll.utm.rest.ComponentPackageMaker.class,
+            me.jmll.utm.rest.exception.ComponentPackageMaker.class},
+        useDefaultFilters = false,
+        includeFilters = @ComponentScan.Filter({
+    Controller.class,
+    ControllerAdvice.class}))
 public class RestServletContextConfig extends WebMvcConfigurerAdapter {
-    @Inject 
+
+    @Inject
     ObjectMapper objectMapper;
-    @Inject 
+    @Inject
     Marshaller marshaller;
-    @Inject 
+    @Inject
     Unmarshaller unmarshaller;
 
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(createXMLMessageConverter());
-		converters.add(createJSONMessageConverter());
-	}
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(createXMLMessageConverter());
+        converters.add(createJSONMessageConverter());
+    }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -53,27 +54,27 @@ public class RestServletContextConfig extends WebMvcConfigurerAdapter {
         configurer.ignoreAcceptHeader(false);
         configurer.defaultContentType(MediaType.APPLICATION_JSON);
     }
-    
-	private MappingJackson2HttpMessageConverter createJSONMessageConverter() {
-		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-		jsonConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json"), new MediaType("text", "json")));
-		jsonConverter.setObjectMapper(this.objectMapper);
-		return jsonConverter;
-	}
-	
-	private MarshallingHttpMessageConverter createXMLMessageConverter() {
-		MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter();
-		xmlConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "xml"), new MediaType("text", "xml")));
-		xmlConverter.setMarshaller(this.marshaller);
-		xmlConverter.setUnmarshaller(this.unmarshaller);
-		return xmlConverter;
-	}
-	
-	@Bean
-	public CommonsMultipartResolver multipartResolver(){
-	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-	    multipartResolver.setDefaultEncoding("UTF-8");
-	    multipartResolver.setMaxUploadSize(-1);
-	    return multipartResolver;
-	}
+
+    private MappingJackson2HttpMessageConverter createJSONMessageConverter() {
+        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+        jsonConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json"), new MediaType("text", "json")));
+        jsonConverter.setObjectMapper(this.objectMapper);
+        return jsonConverter;
+    }
+
+    private MarshallingHttpMessageConverter createXMLMessageConverter() {
+        MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter();
+        xmlConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "xml"), new MediaType("text", "xml")));
+        xmlConverter.setMarshaller(this.marshaller);
+        xmlConverter.setUnmarshaller(this.unmarshaller);
+        return xmlConverter;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setDefaultEncoding("UTF-8");
+        multipartResolver.setMaxUploadSize(-1);
+        return multipartResolver;
+    }
 }

@@ -1,7 +1,8 @@
 package me.jmll.utm.form;
 
 public class UserForm {
-	private String username, password, fullName;
+
+    private String username, password, fullName;
 
     public String getUsername() {
         return username;
@@ -19,11 +20,11 @@ public class UserForm {
         this.password = password;
     }
 
-	public String getFullName() {
-		return fullName;
-	}
+    public String getFullName() {
+        return fullName;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }

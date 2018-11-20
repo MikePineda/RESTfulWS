@@ -1,6 +1,7 @@
 package me.jmll.utm.form;
 
 public class LoginForm {
+
     private String username, password;
 
     public String getUsername() {

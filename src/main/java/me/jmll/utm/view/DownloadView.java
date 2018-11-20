@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class DownloadView implements View {
+
     private final String filename;
     private final String contentType;
     private final byte[] bytes;

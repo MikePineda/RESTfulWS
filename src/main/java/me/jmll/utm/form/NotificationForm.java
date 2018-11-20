@@ -1,37 +1,38 @@
 package me.jmll.utm.form;
 
 public class NotificationForm {
-	private String subject, message, toAddress, ccAddress;
 
-	public String getSubject() {
-		return subject;
-	}
+    private String subject, message, toAddress, ccAddress;
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public String getToAddress() {
-		return toAddress;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setToAddress(String toAddress) {
-		this.toAddress = toAddress;
-	}
+    public String getToAddress() {
+        return toAddress;
+    }
 
-	public String getCcAddress() {
-		return ccAddress;
-	}
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
 
-	public void setCcAddress(String ccAddress) {
-		this.ccAddress = ccAddress;
-	}
+    public String getCcAddress() {
+        return ccAddress;
+    }
+
+    public void setCcAddress(String ccAddress) {
+        this.ccAddress = ccAddress;
+    }
 }

@@ -1,3 +1,4 @@
 package me.jmll.utm.repository;
 
-public class ComponentPackageMaker {}
+public class ComponentPackageMaker {
+}

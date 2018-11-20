@@ -8,18 +8,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Resource {
-	private List<Link> links = new ArrayList<>();
-	
-	@XmlElement(name="link")
-	public List<Link> getLinks() {
-		return links;
-	}
 
-	public void setLinks(List<Link> links) {
-		this.links = links;
-	}
+    private List<Link> links = new ArrayList<>();
 
-	public void addLink(Link link) {
-		this.links.add(link);
-	}
+    @XmlElement(name = "link")
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        this.links.add(link);
+    }
 }

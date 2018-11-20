@@ -17,24 +17,30 @@ import org.apache.logging.log4j.Logger;
 import me.jmll.utm.model.User;
 
 public class Authorization implements Filter {
-	private static final Logger logger = LogManager.getLogger(Authorization.class);
 
-	public Authorization() {}
-	public void init(FilterConfig fConfig) throws ServletException {}
-	public void destroy() {}
+    private static final Logger logger = LogManager.getLogger(Authorization.class);
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse resp = (HttpServletResponse) response;
+    public Authorization() {
+    }
 
-		HttpSession session = req.getSession();
-		User user = (User) session.getAttribute("validUser");
-		if (user != null) {
-			logger.info("User authenticated {}", user.getUsername());
-			chain.doFilter(request, response);
-		} else {
-			logger.info("Usuario no ha sido autenticado {}", req.getRemoteAddr());
-			resp.sendRedirect(req.getContextPath() + "/login");
-		}
-	}
+    public void init(FilterConfig fConfig) throws ServletException {
+    }
+
+    public void destroy() {
+    }
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("validUser");
+        if (user != null) {
+            logger.info("User authenticated {}", user.getUsername());
+            chain.doFilter(request, response);
+        } else {
+            logger.info("Usuario no ha sido autenticado {}", req.getRemoteAddr());
+            resp.sendRedirect(req.getContextPath() + "/login");
+        }
+    }
 }

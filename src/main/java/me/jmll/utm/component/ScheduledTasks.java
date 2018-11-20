@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduledTasks {
-	private static final Logger logger = LogManager.getLogger();
+
+    private static final Logger logger = LogManager.getLogger();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public void reportCurrentTimeRate() {

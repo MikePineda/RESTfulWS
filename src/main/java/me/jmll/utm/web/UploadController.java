@@ -20,42 +20,42 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UploadController {
-	@Autowired
-	private FileService fileService;
 
-	private static final Logger logger = LogManager.getLogger();
+    @Autowired
+    private FileService fileService;
 
-	@RequestMapping(value = "upload", 
-				    method = RequestMethod.GET)
-	public String upload(Map<String, Object> model) {
-		logger.info("Upload requested file.");
-		return "upload/file";
-	}
+    private static final Logger logger = LogManager.getLogger();
 
-	@RequestMapping(value = "upload",
-					method = RequestMethod.POST)
-	public String fileUpload(Map<String, Object> model, 
-			HttpSession session, HttpServletRequest request,
-			@RequestParam("name") String name,
-			@RequestParam("path") String path,
+    @RequestMapping(value = "upload",
+            method = RequestMethod.GET)
+    public String upload(Map<String, Object> model) {
+        logger.info("Upload requested file.");
+        return "upload/file";
+    }
+
+    @RequestMapping(value = "upload",
+            method = RequestMethod.POST)
+    public String fileUpload(Map<String, Object> model,
+            HttpSession session, HttpServletRequest request,
+            @RequestParam("name") String name,
+            @RequestParam("path") String path,
             @RequestParam("file") MultipartFile file) throws IOException {
-		logger.debug("Uploading attachment");
-		List<String> warnings = new ArrayList<String>();
-		List<String> errors = new ArrayList<String>();
-		if (!file.isEmpty()) {
+        logger.debug("Uploading attachment");
+        List<String> warnings = new ArrayList<String>();
+        List<String> errors = new ArrayList<String>();
+        if (!file.isEmpty()) {
             boolean status = fileService.uploadFile(file, name, path);
             if (status) {
-            	warnings.add(String.format("Successfully uploaded %s to %s", name, path));
+                warnings.add(String.format("Successfully uploaded %s to %s", name, path));
             }
+        } else {
+            String message = String.format("Failed to upload file %s to %s. File was empty.", name, path);
+            errors.add(message);
+            logger.info(message);
         }
-        else {
-        	String message = String.format("Failed to upload file %s to %s. File was empty.", name, path);
-        	errors.add(message);
-        	logger.info(message);
-        }
-		
+
         model.put("warnings", warnings);
         model.put("errors", errors);
-		return "upload/done";
-	}
+        return "upload/done";
+    }
 }

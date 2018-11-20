@@ -16,20 +16,21 @@ import org.springframework.web.servlet.View;
 
 @Controller
 public class NotificationController {
-	private static final Logger logger = LogManager.getLogger();
-	
-	@Autowired
-	NotificationService notificationService;
-	
-	@RequestMapping(value = "notify",
-			method = RequestMethod.POST)
-	@ResponseBody
-	public View notify(@RequestParam("subject") String subject,
-					   @RequestParam("message") String message,
-					   @RequestParam("toAddress") String toAddress,
-					   @RequestParam("ccAddress") String ccAddress) {
-		logger.info("Notification URI requested");
-		notificationService.notify(subject, message, Arrays.asList(toAddress.split(";")), Arrays.asList(ccAddress.split(";")));
-		return new NotificationView("text/html");
-	}
+
+    private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    NotificationService notificationService;
+
+    @RequestMapping(value = "notify",
+            method = RequestMethod.POST)
+    @ResponseBody
+    public View notify(@RequestParam("subject") String subject,
+            @RequestParam("message") String message,
+            @RequestParam("toAddress") String toAddress,
+            @RequestParam("ccAddress") String ccAddress) {
+        logger.info("Notification URI requested");
+        notificationService.notify(subject, message, Arrays.asList(toAddress.split(";")), Arrays.asList(ccAddress.split(";")));
+        return new NotificationView("text/html");
+    }
 }

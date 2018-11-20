@@ -22,49 +22,49 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class LoginController {
+
     @Autowired
     UserService userService;
 
-	private static final Logger log = LogManager.getLogger();
+    private static final Logger log = LogManager.getLogger();
 
-    @RequestMapping(value = "login", 
-    				method = RequestMethod.GET)
+    @RequestMapping(value = "login",
+            method = RequestMethod.GET)
     public ModelAndView login(Map<String, Object> model, HttpSession session) {
-        if(session.getAttribute("username") != null) {
+        if (session.getAttribute("username") != null) {
             return this.getHomeRedirect();
-        } 
+        }
         List<String> warnings = new ArrayList<String>();
         warnings.add("Restricted resource. Login first.");
-        model.put("loginWarnings",warnings );
+        model.put("loginWarnings", warnings);
         model.put("loginForm", new LoginForm());
         return new ModelAndView("login");
     }
 
-    @RequestMapping(value = "login", 
-    				method = RequestMethod.POST)
+    @RequestMapping(value = "login",
+            method = RequestMethod.POST)
     public ModelAndView login(Map<String, Object> model, HttpSession session,
-                              HttpServletRequest request, LoginForm form) {
-    	List<String> warnings = new ArrayList<String>();
-        if(session.getAttribute("validUser") != null) {
-        	log.info("Already logged in {}", session.getAttribute("username"));
+            HttpServletRequest request, LoginForm form) {
+        List<String> warnings = new ArrayList<String>();
+        if (session.getAttribute("validUser") != null) {
+            log.info("Already logged in {}", session.getAttribute("username"));
             return this.getHomeRedirect();
         }
-        if(form.getUsername() == null || form.getPassword() == null) {
-        	log.warn("Login failed for user {}", form.getUsername());
-        	warnings.add("Username or passowrd empty.");
+        if (form.getUsername() == null || form.getPassword() == null) {
+            log.warn("Login failed for user {}", form.getUsername());
+            warnings.add("Username or passowrd empty.");
             form.setPassword(null);
             model.put("loginWarnings", warnings);
             model.put("loginForm", form);
             return new ModelAndView("login");
-        } 
-        else if(!userService.login(form.getUsername(), form.getPassword())) {
+        } else if (!userService.login(form.getUsername(), form.getPassword())) {
             log.warn("Login failed for user {}", form.getUsername());
             warnings.add("Invalid Username or password.");
             form.setPassword(null);
             model.put("loginWarnings", warnings);
             model.put("loginForm", form);
             return new ModelAndView("login");
-        } 
+        }
 
         log.debug("User {} successfully logged in.", form.getUsername());
         session.setAttribute("validUser", userService.getUser(form.getUsername()));
@@ -78,10 +78,10 @@ public class LoginController {
 
     @RequestMapping("logout")
     public View logout(HttpSession session, Map<String, Object> model) {
-    	User user = (User) session.getAttribute("validUser");
+        User user = (User) session.getAttribute("validUser");
         log.debug("User {} logged out.", user.getUsername());
         session.invalidate();
         model.put("loginWarnings", new ArrayList<String>().add("Successfully logged out."));
         return new RedirectView("/login", true, false);
-    }    
+    }
 }

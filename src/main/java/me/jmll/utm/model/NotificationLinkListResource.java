@@ -8,28 +8,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class NotificationLinkListResource extends Resource {
-	private List<Link> links = new ArrayList<>();
-	private List<Notification> notifications = new ArrayList<>();
-	
-	@XmlElement(name="link")
-	public List<Link> getLinks() {
-		return links;
-	}
 
-	public void setLinks(List<Link> links) {
-		this.links = links;
-	}
-	
-	public void addLink(Link link) {
-		this.links.add(link);
-	}
-	
-	@XmlElement(name="data")
-	public List<Notification> getNotifications() {
-		return notifications;
-	}
+    private List<Link> links = new ArrayList<>();
+    private List<Notification> notifications = new ArrayList<>();
 
-	public void setNotifications(List<Notification> notifications) {
-		this.notifications = notifications;
-	}
+    @XmlElement(name = "link")
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        this.links.add(link);
+    }
+
+    @XmlElement(name = "data")
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 }
